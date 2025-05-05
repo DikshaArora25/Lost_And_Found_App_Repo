@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Claims - LostNoMore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-yellow: #FFD700;
+            --dark-yellow: #FFA500;
+            --light-yellow: #FFEE99;
+            --bright-yellow: #FFFACD;
+            --gold-accent: #FFC300;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --text-light: #f8f9fa;
+            --text-dark: #333333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: linear-gradient(135deg, #faf8f0 0%, #f5f2e8 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+        }
+
+        .heading {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-yellow);
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            position: relative;
+            animation: fadeInDown 0.8s ease-out;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-yellow), var(--gold-accent));
+            border-radius: 2px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .table {
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--gold-accent));
+            color: var(--text-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+            text-align: center;
+            vertical-align: middle;
+            border: none;
+            position: sticky;
+            top: 0;
+        }
+
+        .table thead th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+
+        .table thead th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .table tbody tr {
+            transition: var(--transition);
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: rgba(255, 215, 0, 0.05);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(255, 215, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: var(--border-radius);
+        }
+
+        .table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: var(--border-radius);
+        }
+
+        .btn {
+            border-radius: 50px;
+            font-weight: 500;
+            padding: 0.5rem 1.25rem;
+            transition: var(--transition);
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, var(--primary-yellow), var(--gold-accent));
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, var(--dark-yellow), var(--gold-accent));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .mode-toggle {
+            background-color: var(--dark-yellow);
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .mode-toggle:hover {
+            background-color: var(--gold-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-yellow);
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .table-container {
+            background-color: #333333;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        body.dark-mode .table thead th {
+            background: linear-gradient(135deg, var(--dark-yellow), var(--gold-accent));
+            color: var(--text-dark);
+        }
+
+        body.dark-mode .table tbody tr:nth-child(even) {
+            background-color: rgba(255, 165, 0, 0.1);
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+
+        body.dark-mode .table tbody td {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        body.dark-mode .empty-state {
+            color: #adb5bd;
+        }
+
+        body.dark-mode .empty-state i {
+            color: var(--primary-yellow);
+        }
+
+        body.dark-mode .mode-toggle {
+            background-color: var(--gold-accent);
+            color: var(--text-dark);
+        }
+
+        /* Highlight important elements */
+        .table tbody td:first-child {
+            font-weight: 600;
+            color: var(--dark-yellow);
+        }
+
+        body.dark-mode .table tbody td:first-child {
+            color: var(--primary-yellow);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .heading {
+                font-size: 2rem;
+            }
+            
+            .table thead {
+                display: none;
+            }
+            
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+            
+            .table tr {
+                margin-bottom: 1rem;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
+            }
+            
+            .table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                width: calc(50% - 1rem);
+                padding-right: 1rem;
+                font-weight: 600;
+                text-align: left;
+            }
+        }
+
+        /* Animation for table rows */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table tbody tr {
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        .table tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body class="p-4" id="mainBody">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+            <h2 class="heading">📋 All Submitted Claims</h2>
+            <div class="d-flex gap-2 mt-3 mt-md-0">
+                <button class="btn mode-toggle" onclick="toggleMode()">🌙 Dark Mode</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-back">← Back to Dashboard</a>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>🔢 #</th>
+                        <th>👤 Name</th>
+                        <th>📧 Email</th>
+                        <th>📞 Phone</th>
+                        <th>📦 Product</th>
+                        <th>📝 Description</th>
+                        <th>📍 Location</th>
+                        <th>📅 Date</th>
+                        <th>⏱️ Submitted At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for claim in claims %}
+                    <tr>
+                        <td data-label="ID">{{ loop.index }}</td>
+                        <td data-label="Name">{{ claim.name }}</td>
+                        <td data-label="Email">{{ claim.email }}</td>
+                        <td data-label="Phone">{{ claim.phone }}</td>
+                        <td data-label="Product">{{ claim.product }}</td>
+                        <td data-label="Description">{{ claim.description }}</td>
+                        <td data-label="Location">{{ claim.location }}</td>
+                        <td data-label="Date">{{ claim.date }}</td>
+                        <td data-label="Submitted">{{ claim.timestamp }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No Claims Found</h3>
+                                <p>There are no submitted claims yet. Check back later!</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleMode() {
+            const body = document.getElementById('mainBody');
+            const isDark = body.classList.contains('dark-mode');
+            const modeToggle = document.querySelector('.mode-toggle');
+
+            if (isDark) {
+                body.classList.remove('dark-mode');
+                modeToggle.textContent = '🌙 Dark Mode';
+            } else {
+                body.classList.add('dark-mode');
+                modeToggle.textContent = '☀️ Light Mode';
+            }
+            
+            // Store preference in localStorage
+            localStorage.setItem('darkMode', !isDark);
+        }
+
+        // Check for saved user preference
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.getElementById('mainBody').classList.add('dark-mode');
+                document.querySelector('.mode-toggle').textContent = '☀️ Light Mode';
+            }
+            
+            // Add data-labels for responsive table
+            const headers = document.querySelectorAll('thead th');
+            const cells = document.querySelectorAll('tbody td');
+            
+            headers.forEach((header, index) => {
+                const label = header.textContent.replace(/[🔢👤📧📞📦📝📍📅⏱️]/g, '').trim();
+                document.querySelectorAll(`tbody td:nth-child(${index + 1})`).forEach(cell => {
+                    cell.setAttribute('data-label', label);
+                });
+            });
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

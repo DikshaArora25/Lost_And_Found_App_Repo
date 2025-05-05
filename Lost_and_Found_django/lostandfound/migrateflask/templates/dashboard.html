@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LostNoMore</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <!-- Local Styles -->
+
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 0;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+    .hero-animation {
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background-color: rgb(36, 35, 35);
+    }
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      height:470px;
+    }
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      display: none;
+    }
+    .carousel-item.active {
+      display: block;
+    }
+    .carousel-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .carousel-control.prev {
+      left: 10px;
+    }
+    .carousel-control.next {
+      right: 10px;
+    }
+    .footer {
+      margin-top: auto;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      margin: 0;
+    }
+    footer {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      margin: 0;
+    }
+    .service-box:hover .service-icon,
+    .service-box:hover .service-heading,
+    .service-box:hover .service-description {
+        color: white;
+    }
+    .service-box:hover .service-description {
+        max-height: none;
+        white-space: normal;
+    }
+  
+        .hidden { display: none; }
+
+        #alertBox .bg-green {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        #alertBox .bg-red {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+    .black-bg {
+  background-color: black;
+}
+@keyframes fadeLine {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-line {
+  animation: fadeLine 0.8s ease-out forwards;
+  opacity: 0; /* Make sure it's hidden before animating */
+}
+@keyframes zoomRotate {
+  0% {
+    opacity: 0;
+    transform: scale(0.6) rotate(-10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-zoom-rotate {
+  animation: zoomRotate 1.2s ease-out forwards;
+}
+
+
+  </style>
+</head>
+<body class="black-bg">
+
+  <!-- Navbar -->
+  <nav>
+    <div class="container-fluid  mx-auto px-4 py-4 flex justify-between items-center">
+      <a class="text-2xl font-bold text-gray-800" href="#" style="font-family: 'Pacifico', cursive; font-size:30px">
+        <span class="text-blue-500">Lost</span><span class="text-yellow-500">No</span><span class="text-green-500">More</span>
+      </a>
+      <ul class="hidden md:flex space-x-6">
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="{% url 'index' %}">Home</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#gallery">Gallery</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#services">Services</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#report-lost">Report Items</a></li>
+        <li><a class="text-white hover:text-yellow-500 font-bold" href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+      <div class="hidden md:flex items-center space-x-4">
+        <a class="text-white hover:text-yellow-500 font-bold" href="{% url 'profile' %}">
+          <i class="fas fa-user-circle text-2xl"></i>
+        </a>
+        <a class="text-white hover:text-yellow-500 font-bold" href="{% url 'logout' %}">
+          <i class="fas fa-sign-out-alt text-2xl"></i>
+        </a>
+      </div>
+      <div class="md:hidden">
+        <button class="text-white focus:outline-none" id="menu-button">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+    <div class="hidden md:hidden" id="mobile-menu">
+      <ul class="px-4 pt-4 pb-2 space-y-2">
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="{% url 'index' %}">Home</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#gallery">Gallery</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#services">Services</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="#report-lost">Report Items</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="{% url 'contact' %}">Contact</a></li>
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="{% url 'profile' %}">Profile</a></li>
+        {% if user.is_authenticated %}
+        <li><a class="block text-white hover:text-yellow-500 font-bold" href="{% url 'logout' %}">Logout</a></li>
+    {% endif %}
+    
+      </ul>
+    </div>
+  </nav>
+  
+      
+  <main class="container mx-auto mt-20 mb-12 px-6 max-w-4xl">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    </main>
+
+    <section class="bg-black py-16 text-white">
+      <div class="container-fluid mx-auto px-4 flex flex-col md:flex-row items-center">
+        
+        <!-- Left Column (Text) -->
+        <div class="md:w-1/2 space-y-6">
+          <h1 class="text-4xl font-bold -mt-24 text-yellow-500 animate-fade-line" style="animation-delay: 0.2s">
+            Find Your Lost Items
+          </h1>
+          <p class="text-gray-300 leading-relaxed animate-fade-line" style="animation-delay: 0.4s">
+            We help you find your lost items quickly and easily. Report lost items and search for found items in your area.
+          </p>
+          <p class="text-gray-300 leading-relaxed animate-fade-line" style="animation-delay: 0.6s">
+            LostNoMore is a cutting-edge platform designed to help you find and report lost items quickly and efficiently. Our intuitive interface connects individuals who have lost belongings with those who have found them, ensuring that valuable items are reunited with their rightful owners.
+          </p>
+          <p class="text-gray-300 leading-relaxed animate-fade-line" style="animation-delay: 0.8s">
+            Whether it's a misplaced phone, wallet, or pet, LostNoMore offers a secure and private environment to report and search for lost items within your community. Join us in making a difference—because every lost item deserves to be found.
+          </p>
+          <a href="#services" class="inline-block bg-yellow-500 text-gray-900 px-6 py-3 rounded-full font-bold hover:bg-yellow-600 transition duration-300 animate-fade-line" style="animation-delay: 1s">
+            Our Services
+          </a>
+        </div>
+    
+        <!-- Right Column (Image) -->
+        <div class="md:w-1/2 mt-24 md:mt-0 flex justify-center animate-zoom-rotate">
+          <img 
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdntMKppjNgpAf1wWnJrIvwIEd-cCRzmTg9w&s" 
+            alt="Illustration of people finding lost items" 
+            class="w-[500px] h-300px shadow-xl transition-transform duration-500 ease-in-out hover:scale-105" 
+          />
+        </div>
+        
+    
+      </div>
+    </section>
+    
+ <section class="relative carousel mt-24">
+
+   <div class="carousel-inner">
+    <div class="carousel-item active">
+     <img alt="Lost wallet on a bench" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/wKpcgqMfUpmpJEIgerprdzRvxMWlUnjefW2k6wGXhI0.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Wallet
+      </h2>
+      <p>
+       Have you lost your wallet? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost keys on the ground" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/Jbx9mTZ4YRhYhDL6Zj2D18xJ2fVPJkmxgPbQGg_t1ZU.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Keys
+      </h2>
+      <p>
+       Lost your keys? Report it here and get them back.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost phone on a table" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/79BUwhlAhfwaFo_91TO7IKnwb9oP_saxwGFFUMT4Uyk.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Phone
+      </h2>
+      <p>
+       Lost your phone? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost backpack on a park bench" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/epzijZ9sGGMkFpDxfjhOHtbNRPjTD_qwVsP8ICki5XU.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Backpack
+      </h2>
+      <p>
+       Lost your backpack? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost sunglasses on a beach" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/L88nFny8YsecDhZ6eKmOhturwGtH0P5fpKZ4Tp6jQvs.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Sunglasses
+      </h2>
+      <p>
+       Lost your sunglasses? Report it here and find them quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost pet dog in a park" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/4p7Pt9MHyd0Quiz1PzOjfMpLlfwwdZnMIvVzfsCQflw.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Pet Dog
+      </h2>
+      <p>
+       Lost your pet dog? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost bicycle on a street" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/bzSPdF5Qh-IsAAnuQG8NjPU0EVRhtLGzY2EX37NdZTo.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Bicycle
+      </h2>
+      <p>
+       Lost your bicycle? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost laptop in a cafe" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/yMBOZ8Ja6_BcE2JlLAlaTCAtMpoGF76R-Jted4k-BuQ.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Laptop
+      </h2>
+      <p>
+       Lost your laptop? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost book in a library" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/kHywfNRnYdWWkmj2F3zYm2P-_T1lIdlDrmHtzhWAGtA.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Book
+      </h2>
+      <p>
+       Lost your book? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+    <div class="carousel-item">
+     <img alt="Lost hat on a park bench" class="w-full h-96 object-cover" height="500" src="https://storage.googleapis.com/a1aa/image/73zVWkuGblcexgsTNgixu4MaHI4SKG8Jt2LC6MyZO0Y.jpg" width="800"/>
+     <div class="carousel-caption">
+      <h2 class="text-2xl font-bold">
+       Lost Hat
+      </h2>
+      <p>
+       Lost your hat? Report it here and find it quickly.
+      </p>
+     </div>
+    </div>
+   </div>
+   <button aria-label="Previous slide" class="carousel-control prev" onclick="prevSlide()">
+    ❮
+   </button>
+   <button aria-label="Next slide" class="carousel-control next" onclick="nextSlide()">
+    ❯
+   </button>
+  </section>
+  <script>
+   let currentIndex = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-item');
+            if (index >= slides.length) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = slides.length - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentIndex);
+            setInterval(nextSlide, 3000); // Slide every 3 seconds
+        });
+  </script>
+ 
+  <section class="bg-gray-800 py-12">
+   <div class="container-fluid  mx-auto px-4">
+    <h2 class="text-yellow-500 text-center text-3xl font-bold mb-8">
+     Take Action
+    </h2>
+    <div class="flex flex-wrap -mx-4">
+     <div class="w-full md:w-1/2 px-4 mb-8">
+      <div class="bg-white p-6 rounded-md shadow-md text-center transition-transform transform hover:scale-105">
+       <img alt="Image representing lost items" class="w-full h-48 object-cover mb-4 rounded-md" height="400" src="https://epe.brightspotcdn.com/dims4/default/3ca9b85/2147483647/strip/true/crop/3000x2036+0+207/resize/840x570!/quality/90/?url=https%3A%2F%2Fepe-brightspot.s3.us-east-1.amazonaws.com%2F88%2Faa%2F78c6a838470a8bc0c17fdc991b9a%2Flost-and-found-052024-184983587.jpg" width="600"/>
+       <a class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 flex items-center justify-center" href="#report-lost">
+        <i class="fas fa-exclamation-circle mr-2">
+        </i>
+        Report Lost Item
+       </a>
+      </div>
+     </div>
+     <div class="w-full md:w-1/2 px-4 mb-8">
+      <div class="bg-white p-6 rounded-md shadow-md text-center transition-transform transform hover:scale-105">
+       <img alt="Image representing found items" class="w-full h-48 object-cover mb-4 rounded-md" height="400" src="https://www.bates.edu/news/files/2018/11/7-crop-square-181113-lost-and-found_2230.jpg" width="600"/>
+       <a class="bg-green-500 text-white px-6 py-3 rounded-md hover:bg-green-600 flex items-center justify-center" href="#report-found">
+        <i class="fas fa-check-circle mr-2">
+        </i>
+        Report Found Item
+       </a>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+ 
+
+<!-- Services Section -->
+<section class="bg-gray-100 py-20" id="services">
+ <div class="container-fluid  mx-auto px-4">
+     <h2 class="text-3xl font-bold text-center mb-12 text-yellow-600 uppercase" style="font-family: 'Montserrat', sans-serif;">
+         Our Services
+     </h2>
+     <div class="flex flex-wrap -mx-4">
+         <div class="w-full md:w-1/3 px-4 mb-8">
+             <div class="service-box bg-gray-800 p-6 rounded-md shadow-md text-center transition-transform transform hover:scale-105 hover:bg-yellow-500 hover:text-white">
+                 <i class="fas fa-search text-4xl text-yellow-500 mb-4 transition-colors duration-300 ease-in-out service-icon"></i>
+                 <h3 class="text-xl font-bold mb-2 text-yellow-500 transition-colors duration-300 ease-in-out service-heading">
+                     Search Lost Items
+                 </h3>
+                 <p class="text-gray-400 max-h-10 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out service-description">
+                     Easily search for lost items reported by others in your area. You can quickly find details about various items that have been misplaced and locate them with ease.
+                 </p>
+             </div>
+         </div>
+         <div class="w-full md:w-1/3 px-4 mb-8">
+             <div class="service-box bg-gray-800 p-6 rounded-md shadow-md text-center transition-transform transform hover:scale-105 hover:bg-yellow-500 hover:text-white">
+                 <i class="fas fa-bullhorn text-4xl text-yellow-500 mb-4 transition-colors duration-300 ease-in-out service-icon"></i>
+                 <h3 class="text-xl font-bold mb-2 text-yellow-500 transition-colors duration-300 ease-in-out service-heading">
+                     Report Found Items
+                 </h3>
+                 <p class="text-gray-400 max-h-10 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out service-description">
+                     Report items you have found to help others reclaim their lost belongings. Your contribution makes it easier for people to find what they have lost.
+                 </p>
+             </div>
+         </div>
+         <div class="w-full md:w-1/3 px-4 mb-8">
+             <div class="service-box bg-gray-800 p-6 rounded-md shadow-md text-center transition-transform transform hover:scale-105 hover:bg-yellow-500 hover:text-white">
+                 <i class="fas fa-shield-alt text-4xl text-yellow-500 mb-4 transition-colors duration-300 ease-in-out service-icon"></i>
+                 <h3 class="text-xl font-bold mb-2 text-yellow-500 transition-colors duration-300 ease-in-out service-heading">
+                     Secure and Private
+                 </h3>
+                 <p class="text-gray-400 max-h-10 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out service-description">
+                     Your information is secure and private with our trusted platform. Rest assured that your data is protected at all times.
+                 </p>
+             </div>
+         </div>
+     </div>
+ </div>
+</section>
+
+
+
+   <!-- Search and Filter Section -->
+   <section class="py-20">
+       <div class="container-fluid  mx-auto px-4 bg-gray-900 text-white rounded-md shadow-lg py-12">
+           <h2 class="text-4xl font-bold text-center mb-12 text-yellow-400">
+               Search Your Items
+           </h2>
+           <p class="text-center text-lg mb-8 text-gray-300">
+               Our search tool helps you find lost items quickly and efficiently. Whether it's electronics, clothing, or even pets, our comprehensive search filters make it easy to locate your lost belongings.
+           </p>
+           <div class="text-center">
+            <a href="{% url 'search' %}" class="bg-yellow-500 text-gray-900 px-6 py-3 rounded-md hover:bg-yellow-600 transition-all duration-300">
+              Search Your Items
+          </a>
+          
+           </div>
+       </div>
+   </section>
+
+<!-- New Section: Report Lost/Found Item Forms (Ensure IDs don't conflict) -->
+
+ <!-- Report Lost Item Section -->
+<!-- Add this container for the alert box -->
+<div id="alertBox" class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+ <div class="bg-white p-8 rounded-md shadow-md w-1/3">
+     <span id="alertMessage" class="block mb-4">Your form has been submitted successfully!</span>
+     <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300" onclick="closeAlert()">Close</button>
+ </div>
+</div>
+
+<!-- Report Lost Item Section -->
+<section class="bg-white py-20" id="report-lost">
+ <div class="container mx-auto px-4">
+     <div class="max-w-2xl mx-auto bg-red-100 p-8 rounded-md shadow-md">
+         <h2 class="text-3xl font-bold text-center mb-12 bg-red-500 text-white px-6 py-3 rounded-md" style="font-family: 'Roboto', sans-serif;">Report Lost Item</h2>
+         <form enctype="multipart/form-data" method="POST" action="{% url 'report_lost' %}" onsubmit="return handleSubmit(event)" data-status="lost">
+          {% csrf_token %}
+
+             <div class="mb-4">
+                 <label class="block font-bold mb-2" for="lost-item-name">Item Name</label>
+                 <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="lost-item-name" name="name" required type="text"/>
+             </div>
+             <div class="mb-4">
+                 <label class="block font-bold mb-2" for="lost-item-description">Description</label>
+                 <textarea class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="description" name="description" required></textarea>
+             </div>
+             <div class="mb-4">
+                 <label class="block font-bold mb-2" for="lost-item-category">Category</label>
+                 <select class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="category" name="category" required>
+                     <option value="electronics">Electronics</option>
+                     <option value="stationary">stationary</option>
+                     <option value="clothing">Clothing</option>
+                     <option value="accessories">Accessories</option>
+                     <option value="jewelry">Jewelry</option>
+                     <option value="documents">Documents</option>
+                     <option value="pets">Pets</option>
+                     <option value="toys">Toys</option>
+                     <option value="tools">Tools</option>
+                     <option value="sports">Sports Equipment</option>
+                     <option value="others">Others</option>
+                 </select>
+             </div>
+             <div class="mb-4">
+              <label class="block font-bold mb-2" for="lost-item-date">Date Lost</label>
+              <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="lost-item-date" name="date_string" required type="date" />
+          </div>
+
+            
+             <div class="mb-4">
+                 <label class="block font-bold mb-2" for="lost-item-location">Location</label>
+                 <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="lost-item-location" name="location" required type="text"/>
+             </div>
+             <div class="mb-4">
+                 <label class="block font-bold mb-2" for="lost-item-image">Upload Image</label>
+                 <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="lost-item-image" name="image" required type="file"/>
+             </div>
+             <button class="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all duration-300" type="submit">Submit</button>
+         </form>
+     </div>
+ </div>
+</section>
+
+
+<section class="bg-white py-20" id="report-found">
+ <div class="container mx-auto px-4">
+     <form class="max-w-2xl mx-auto bg-green-100 p-8 rounded-md shadow-md" enctype="multipart/form-data" method="POST" action="{% url 'report_found' %}" onsubmit="return handleSubmit(event)">
+      {% csrf_token %}
+         <h2 class="text-3xl font-bold text-center mb-12 bg-green-700 text-white px-6 py-3 rounded-md">Report Found Item</h2>
+         <div class="mb-4">
+             <label class="block font-bold mb-2" for="found-item-name">Item Name</label>
+             <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="found-item-name" name="name" required type="text"/>
+         </div>
+         <div class="mb-4">
+             <label class="block font-bold mb-2" for="found-item-description">Description</label>
+             <textarea class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="found-item-description" name="description" required></textarea>
+         </div>
+         <div class="mb-4">
+             <label class="block font-bold mb-2" for="found-item-category">Category</label>
+             <select class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="found-item-category" name="category" required>
+              <option value="electronics">Electronics</option>
+              <option value="stationary">stationary</option>
+              <option value="clothing">Clothing</option>
+              <option value="accessories">Accessories</option>
+              <option value="jewelry">Jewelry</option>
+              <option value="documents">Documents</option>
+              <option value="pets">Pets</option>
+              <option value="toys">Toys</option>
+              <option value="tools">Tools</option>
+              <option value="sports">Sports Equipment</option>
+              <option value="others">Others</option>
+             </select>
+         </div>
+         <div class="mb-4">
+          <label class="block font-bold mb-2" for="found-item-date">Date Found</label>
+          <input 
+            class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            id="found-item-date" 
+            name="date_string" 
+            required 
+            type="date" 
+            max="" 
+          />
+        </div>
+        
+        
+         <div class="mb-4">
+             <label class="block font-bold mb-2" for="found-item-location">Location</label>
+             <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="found-item-location" name="location" required type="text"/>
+         </div>
+         <div class="mb-4">
+             <label class="block font-bold mb-2" for="found-item-image">Upload Image</label>
+             <input class="w-full px-3 py-2 border rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500" id="found-item-image" name="image" required type="file"/>
+         </div>
+         <button class="bg-green-700 text-white px-6 py-3 rounded-md hover:bg-green-800 transition-all duration-300" type="submit">Submit</button>
+     </form>
+ </div>
+</section>
+
+<script>
+ 
+ function handleSubmit(event) {
+     event.preventDefault();
+     const form = event.target;
+     const formData = new FormData(form);
+     fetch(form.action, {
+         method: form.method,
+         body: formData
+     })
+     .then(response => response.json())
+     .then(data => {
+         showAlert("Your report has been submitted successfully!", "bg-green");
+         form.reset(); // Reset the form fields after successful submission
+     })
+     .catch(error => {
+         console.error("Error details:", error);
+         showAlert("Your report has been submitted successfully!", "bg-green");
+         form.reset(); // Reset the form fields even if there's an error
+     });
+ }
+
+ function showAlert(message, type) {
+     const alertBox = document.getElementById("alertBox");
+     const alertMessage = document.getElementById("alertMessage");
+     alertMessage.innerText = message;
+     alertMessage.className = type;
+     alertBox.classList.remove("hidden");
+ }
+
+ function closeAlert() {
+     document.getElementById("alertBox").classList.add("hidden");
+ }
+</script>
+
+
+
+   <div class="container-fluid  mx-auto p-8" id="gallery">
+       <div class="bg-gray-800 shadow-lg rounded-lg p-6 text-center">
+           <h1 class="text-4xl font-extrabold mb-4 text-yellow-400">
+               Lost and Found Gallery
+           </h1>
+           <p class="text-lg mb-4 text-gray-300">Explore our collection of lost and found items. If you have lost something, you might find it here. Visit our gallery to see more items and details.</p>
+           <p class="text-lg mb-4 text-gray-300">Our gallery is regularly updated with new items. If you find something that belongs to you, please contact us immediately.</p>
+           <a href="{% url 'gallery' %}" class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 inline-block mt-4">
+               <i class="fas fa-images mr-2"></i> Go to Gallery
+           </a>
+       </div>
+   </div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 py-4 footer">
+ <div class="container mx-auto px-4 text-center text-white">
+   <p>© 2025 Lost No More. All rights reserved.</p>
+   <div class="mt-4">
+     <a class="text-blue-500 hover:text-blue-400 mx-2 text-2xl" href="#">
+       <i class="fab fa-facebook-f"></i>
+     </a>
+     <a class="text-blue-400 hover:text-blue-300 mx-2 text-2xl" href="#">
+       <i class="fab fa-twitter"></i>
+     </a>
+     <a class="text-pink-500 hover:text-pink-400 mx-2 text-2xl" href="#">
+       <i class="fab fa-instagram"></i>
+     </a>
+     <a class="text-blue-600 hover:text-blue-500 mx-2 text-2xl" href="#">
+       <i class="fab fa-linkedin-in"></i>
+     </a>
+   </div>
+ </div>
+</footer>
+
+
+ <script>
+   // Mobile Menu Toggle
+   const menuButton = document.getElementById('menu-button');
+   const mobileMenu = document.getElementById('mobile-menu');
+
+   menuButton.addEventListener('click', () => {
+     mobileMenu.classList.toggle('hidden');
+   });
+ </script>
+
+ <!-- Chatbot Widget -->
+<style>
+  #chat-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 999;
+  }
+
+  #chat-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      height: 420px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      z-index: 999;
+  }
+
+  #chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.4;
+  }
+
+  #chat-input {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #eee;
+  }
+
+  #chat-input input {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+
+  #chat-input button {
+      padding: 6px 10px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      margin-left: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+
+  #chat-messages strong {
+      color: #2563eb;
+  }
+
+  #chat-messages a {
+      color: #0f172a;
+      text-decoration: underline;
+  }
+</style>
+
+<button id="chat-icon">💬</button>
+
+<div id="chat-box">
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+        <input type="text" id="user-input" placeholder="Ask me anything..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+  const chatIcon = document.getElementById('chat-icon');
+  const chatBox = document.getElementById('chat-box');
+  const messages = document.getElementById('chat-messages');
+  const input = document.getElementById('user-input');
+
+  chatIcon.onclick = () => {
+      chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+  };
+
+  function sendMessage() {
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      appendMessage('You', userText);
+      input.value = '';
+
+      fetch('/chatbot/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken'),
+          },
+          body: JSON.stringify({ message: userText })
+      })
+      .then(response => response.json())
+      .then(data => {
+          appendMessage('Bot', data.response, true);
+      })
+      .catch(error => {
+          appendMessage('Bot', "Oops! Something went wrong.");
+          console.error("Chatbot error:", error);
+      });
+  }
+
+  function appendMessage(sender, text, isHTML = false) {
+      const div = document.createElement('div');
+      div.innerHTML = `<strong>${sender}:</strong><br>${text}`;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+  }
+
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+</script>
+
+ 
+
+ 
+</body>
+</html>

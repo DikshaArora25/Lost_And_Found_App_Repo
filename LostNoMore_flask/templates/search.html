@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LostNoMore</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+  <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f9f9f9, #e0e0e0);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Main container */
+.container {
+    max-width: 600px;
+    width: 80%;
+    padding: 20px;
+    background-color:rgb(36, 35, 35);;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    text-align: center;
+}
+
+/* Heading */
+h1 {
+    color: rgba(234, 179, 8, 1);
+
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+/* Form styling */
+.form-container {
+    margin-bottom: 20px;
+    background:rgb(36, 35, 35);
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: rgba(234, 179, 8, 1);
+
+}
+
+/* Input and select fields */
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s;
+    color:black;
+}
+
+/* Focus effect on input */
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+    color:black;
+}
+
+/* Button styling */
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: rgba(234, 179, 8, 1);
+
+    color:black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+    background-color: rgb(254, 192, 8);
+    ;
+    transform: scale(1.05);
+}
+
+/* Gallery (Search Results) */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Card styling */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Card image */
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Status badge */
+.status-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.status-lost {
+    background-color: #e74c3c;
+}
+
+.status-found {
+    background-color: #27ae60;
+}
+
+.status-returned {
+    background-color: #2980b9;
+}
+
+/* Card content */
+.card-content {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-description {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.card-info {
+    font-size: 0.875rem;
+    color: #999;
+    margin-bottom: 10px;
+}
+.hidden { display: none; }
+
+#alertBox .bg-green {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+#alertBox .bg-red {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Media Queries for Responsive Design */
+
+/* For tablets and larger screens */
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px;
+        width: 85%;
+        margin: 20px;
+    }
+
+    .card {
+        width: 45%;
+    }
+}
+
+/* For small screens (phones) */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+        margin: 10px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        margin-bottom: 10px;
+        width:80%;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background-color: rgb(36, 35, 35);
+      
+    }
+    .footer {
+      width: 100%;
+      background-color: #2d3748;
+      padding: 1rem 0;
+      color: white;
+      text-align: center;
+      margin-top: 2rem; /* Adjust the margin as needed */
+  }
+  .footer-content {
+      max-width: 1200px; /* Adjust as needed */
+      margin: 0 auto;
+      padding: 0 1rem;
+  }
+   </style>
+ </head>
+ <body class="bg-gradient-to-r from-gray-100 to-gray-300 flex flex-col items-center">
+   <nav class="fixed top-0 left-0 right-0 z-10 bg-gray-900">
+     <div class="wrapper mx-auto px-4 py-4 flex justify-between items-center">
+       <a class="text-2xl font-bold text-gray-800" href="#" style="font-family: 'Pacifico', cursive; font-size:30px">
+         <span class="text-blue-500">Lost</span><span class="text-yellow-500">No</span><span class="text-green-500">More</span>
+       </a>
+       <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" href="/dashboard">
+         <i class="fas fa-arrow-left mr-2"></i>
+         Back to Dashboard
+       </a>
+     </div>
+   </nav>
+   <div class="mt-24 mb-8 text-center">
+     <h1 class="text-3xl font-bold text-yellow-500">SEARCH AND FILTER</h1>
+   </div>
+   <div class="w-4/5 max-w-2xl p-6 bg-gray-900 shadow-lg rounded-lg text-center mx-auto">
+     <div class="form-container">
+       <form id="searchForm" method="POST">
+         <div class="form-group mb-4 text-left">
+           <label class="block mb-2 font-bold text-yellow-500" for="search">Search</label>
+           <input class="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none" id="search" name="search" type="text"/>
+           <div class="relative">
+             <ul class="absolute bg-white border rounded-md w-full hidden" id="search-suggestions"></ul>
+           </div>
+         </div>
+         <div class="form-group mb-4 text-left">
+           <label class="block mb-2 font-bold text-yellow-500" for="category">Category</label>
+           <select class="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none" id="category" name="category">
+             <option value="">All Categories</option>
+             <option value="electronics">Electronics</option>
+             <option value="clothing">Clothing</option>
+             <option value="accessories">Accessories</option>
+             <option value="jewelry">Jewelry</option>
+             <option value="documents">Documents</option>
+             <option value="pets">Pets</option>
+             <option value="toys">Toys</option>
+             <option value="tools">Tools</option>
+             <option value="sports">Sports Equipment</option>
+             <option value="others">Others</option>
+           </select>
+         </div>
+         <div class="form-group mb-4 text-left">
+           <label class="block mb-2 font-bold text-yellow-500" for="date">Date</label>
+           <input class="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none" id="date" name="date" type="date"/>
+         </div>
+         <div class="form-group mb-4 text-left">
+           <label class="block mb-2 font-bold text-yellow-500" for="location">Location</label>
+           <input class="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none" id="location" name="location" type="text"/>
+           <div class="relative">
+             <ul class="absolute bg-white border rounded-md w-full hidden" id="location-suggestions"></ul>
+           </div>
+         </div>
+         <div class="form-group mb-4 text-left">
+           <label class="block mb-2 font-bold text-yellow-500" for="sort">Sort By</label>
+           <select class="w-full p-3 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none" id="sort" name="sort">
+             <option value="date">Date</option>
+             <option value="name">Name</option>
+           </select>
+         </div>
+         <button class="button w-full py-3 bg-yellow-500 text-black font-bold rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50" type="submit">Search</button>
+       </form>
+  
+
+        </div>
+        <div id="searchResults" class="gallery">
+            {% for item in items %}
+            <div class="card">
+                <img src="{{ item.image }}" alt="Item Image">
+                <span class="status-badge status-{{ item.status }}">{{ item.status }}</span>
+                <div class="card-content">
+                    <h2 class="card-title">{{ item.name }}</h2>
+                    <p class="card-description">{{ item.description }}</p>
+                    <p class="card-info"><strong>Category:</strong> {{ item.category }}</p>
+                    <p class="card-info"><strong>Date:</strong> {{ item.date }}</p>
+                    <p class="card-info"><strong>Location:</strong> {{ item.location }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            fetchItems();
+        });
+    
+        function fetchItems() {
+            let category = document.getElementById('category').value;
+            let search = document.getElementById('search').value;
+            let date = document.getElementById('date').value;
+            let location = document.getElementById('location').value;
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    category: category,
+                    search: search,
+                    date: date,
+                    location: location
+                })
+            }).then(response => response.json()).then(data => {
+                displayResults(data, category, search, date, location);
+            });
+        }
+    
+        function displayResults(items, selectedCategory, search, date, location) {
+            let resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+    
+            let matchedItems = [];
+            let otherCategoryItems = [];
+    
+            items.forEach(item => {
+                if ((selectedCategory === "" || item.category === selectedCategory) &&
+                    (selectedCategory === "" || (search && item.name.includes(search)) || 
+                     (date && item.date === date) || 
+                     (location && item.location.includes(location)))) {
+                    matchedItems.push(item);
+                } else {
+                    otherCategoryItems.push(item);
+                }
+            });
+    
+            matchedItems.forEach(item => {
+                let card = `
+                <div class="card">
+                    <img src="${item.image}" alt="Item Image">
+                    <span class="status-badge status-${item.status}">${item.status}</span>
+                    <div class="card-content">
+                        <h2 class="card-title">${item.name}</h2>
+                        <p class="card-description">${item.description}</p>
+                        <p class="card-info"><strong>Category:</strong> ${item.category}</p>
+                        <p class="card-info"><strong>Date:</strong> ${item.date}</p>
+                        <p class="card-info"><strong>Location:</strong> ${item.location}</p>
+                    </div>
+                </div>`;
+                resultsDiv.innerHTML += card;
+            });
+    
+            otherCategoryItems.forEach(item => {
+                let card = `
+                <div class="card">
+                    <img src="${item.image}" alt="Item Image">
+                    <span class="status-badge status-${item.status}">${item.status}</span>
+                    <div class="card-content">
+                        <h2 class="card-title">${item.name}</h2>
+                        <p class="card-description">${item.description}</p>
+                        <p class="card-info"><strong>Category:</strong> ${item.category}</p>
+                        <p class="card-info"><strong>Date:</strong> ${item.date}</p>
+                        <p class="card-info"><strong>Location:</strong> ${item.location}</p>
+                    </div>
+                </div>`;
+                resultsDiv.innerHTML += card;
+            });
+        }
+    </script>
+      
+      <footer class="footer">
+        <div class="footer-content mx-auto text-center text-white">
+            <p>© 2025 Lost No More. All rights reserved.</p>
+            <div class="mt-4">
+                <a class="text-blue-500 hover:text-blue-400 mx-2 text-2xl" href="#">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a class="text-blue-400 hover:text-blue-300 mx-2 text-2xl" href="#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="text-pink-500 hover:text-pink-400 mx-2 text-2xl" href="#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="text-blue-600 hover:text-blue-500 mx-2 text-2xl" href="#">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
